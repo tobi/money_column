@@ -1,0 +1,25 @@
+= Money Column
+
+Rails plugin that makes handling of money values in the database convenient. On assignment the money column will
+parse the input and apply heuristics to normalize oddball user input. 
+
+Extracted from Shopify and has seen years of production use. 
+
+= Example use
+
+  class Product < ActiveRecord::Base
+    money_column  :price
+  end
+
+  sneakers = Product.new :price => '$199.95'
+  sneakers.price #=> #<Money value:199.95>
+
+= Database
+
+All money values need to be declared as decimal columns. Just go for it. It will safe you from a world of trouble. 
+
+  create_table "products" do |t|
+    t.string   "title"
+    t.decimal  "price", :precision => 10, :scale => 2, :default => 0.0
+  end
+
